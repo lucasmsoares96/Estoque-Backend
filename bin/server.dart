@@ -7,39 +7,65 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_router/shelf_router.dart';
+import "package:dart_jsonwebtoken/dart_jsonwebtoken.dart";
 
 final overrideHeaders = {
   ACCESS_CONTROL_ALLOW_ORIGIN: '*',
   'Content-Type': 'application/json;charset=utf-8'
 };
 // Configure routes.
-final _router = Router()
-  ..get('/', _rootHandler)
-  ..post('/setUser', _setUser)
-  ..get('/getUser/<message>', _getUser);
+final _router = Router()..post('/login', _login);
+//..get('/getUser/<message>', _getUser);
 
-Response _rootHandler(Request req) {
-  return Response.ok('Hello, World!\n');
-}
-
-Future<Response> _setUser(Request request) async {
+Future<Response> _login(Request request) async {
   String message = await request.readAsString();
-  Map<String, dynamic> user = jsonDecode(message);
+  Map<String, dynamic> userMap = jsonDecode(message);
+
+  if (!userMap["email"]!
+      .toString()
+      .contains(RegExp('^[a-z0-9.]+@[a-z0-9]+.[a-z]+\.([a-z]+)?\$'))) {
+    Response response = Response(
+      400,
+      body: 'Falha ao carregar o usuário: Email inválido',
+    );
+    return response;
+  }
+
+  if (!userMap["password"]!.contains(RegExp('.{8,50}'))) {
+    Response response = Response(
+      400,
+      body: 'Falha ao carregar o usuário: Senha inválida',
+    );
+    return response;
+  }
+
   DataBase db = DataBase();
-  db.setUsers(user);
+  Results user = await db.getUser(userMap['email']!, userMap['password']!);
+
+  if (user.isEmpty) {
+    Response response = Response(
+      400,
+      body:
+          'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email e senha',
+    );
+    return response;
+  }
+  //final jwt = JWT({'email': userMap['email']});
+  //String token = jwt.sign(SecretKey('secret passphrase'));
   Response response = Response(
     201,
     body: message,
   );
+
   return response;
 }
 
-Future<Response> _getUser(Request request) async {
-  Map<String, String> message = request.params;
-  DataBase db = DataBase();
-  Results results = await db.getUsers(message.values.first);
-  return Response.ok('${jsonEncode(results.first.fields)}\n');
-}
+// Future<Response> _getUser(Request request) async {
+//   Map<String, String> message = request.params;
+//   DataBase db = DataBase();
+//   Results results = await db.getUsers(message.values.first);
+//   return Response.ok('${jsonEncode(results.first.fields)}\n');
+// }
 
 void main(List<String> args) async {
   DataBase db = DataBase();
@@ -47,7 +73,7 @@ void main(List<String> args) async {
 
   // Use any available host or container IP (usually `0.0.0.0`).
   // final ip = InternetAddress.anyIPv4;
-  final ip = "192.168.0.198";
+  final ip = "127.0.0.1";
 
   // Configure a pipeline that logs requests.
   final _handler = Pipeline()

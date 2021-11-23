@@ -17,8 +17,8 @@ class DataBase {
   var settings = ConnectionSettings(
       host: 'localhost',
       port: 3306,
-      user: 'root',
-      password: '123456',
+      user: 'alex',
+      password: '32129775@Lex',
       db: 'estoque');
 
   late MySqlConnection conn;
@@ -28,9 +28,15 @@ class DataBase {
     return conn;
   }
 
-  Future<Results> getUsers(String userId) async {
-    return await conn
-        .query('select name, email, age from users where id = ?', [userId]);
+  // Future<Results> getUsers(String userId) async {
+  //   return await conn
+  //       .query('select name, email, age from users where id = ?', [userId]);
+  // }
+
+  Future<Results> getUser(String email, String password) async {
+    return await conn.query(
+        'select email, senha from usuario where email = ? AND senha = ?',
+        [email, password]);
   }
 
   Future<Results> setUsers(Map<String, dynamic> user) async {
@@ -46,8 +52,7 @@ class DataBase {
 //     'insert into users (name, email, age) values (?, ?, ?)',
 //     [['Bob', 'bob@bob.com', 25],
 //     ['Bill', 'bill@bill.com', 26],
-//     ['Joe', 'joe@joe.com', 37]]);
-
+//     ['Joe', 'joe@joe.com', 37]])
   // await conn.query('update users set age=? where name=?', [26, 'Bob']);
   // var results = await conn.query('SHOW TABLES');
   // for (var row in results) {
