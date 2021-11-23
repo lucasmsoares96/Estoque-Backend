@@ -35,7 +35,8 @@ Future<Response> _login(Request request) async {
   }
 
   DataBase db = DataBase();
-  Results user = await db.getUser(userMap['email']!, userMap['password']!);
+  Results user = await db.login(userMap['email']!, userMap['password']!);
+  print('${jsonEncode(user.first.fields)}\n');
 
   if (user.isEmpty) {
     return Response(
@@ -44,10 +45,7 @@ Future<Response> _login(Request request) async {
           'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email e senha',
     );
   }
-  return Response(
-    201,
-    body: message,
-  );
+  return Response.ok('${jsonEncode(user.first.fields)}\n');
 }
 
 void main(List<String> args) async {

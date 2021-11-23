@@ -25,9 +25,9 @@ class DataBase {
     return conn;
   }
 
-  Future<Results> getUser(String email, String password) async {
+  Future<Results> login(String email, String password) async {
     return await conn.query(
-        'SELECT email, password FROM user WHERE email = ? AND password = ?',
+        'SELECT email, name FROM user WHERE email = ? AND password = ?',
         [email, password]);
   }
 }
