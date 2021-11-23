@@ -9,16 +9,13 @@ class DataBase {
   }
 
   DataBase._internal();
-
-  // Outra forma
-  // DataBase._();
-  // static final instance = DataBase._();
+  // fim
 
   var settings = ConnectionSettings(
       host: 'localhost',
       port: 3306,
-      user: 'alex',
-      password: '32129775@Lex',
+      user: 'root',
+      password: '123456',
       db: 'estoque');
 
   late MySqlConnection conn;
@@ -28,34 +25,9 @@ class DataBase {
     return conn;
   }
 
-  // Future<Results> getUsers(String userId) async {
-  //   return await conn
-  //       .query('select name, email, age from users where id = ?', [userId]);
-  // }
-
   Future<Results> getUser(String email, String password) async {
     return await conn.query(
-        'select email, senha from usuario where email = ? AND senha = ?',
+        'SELECT email, password FROM user WHERE email = ? AND password = ?',
         [email, password]);
   }
-
-  Future<Results> setUsers(Map<String, dynamic> user) async {
-    return await conn
-        .query('insert into users (name, email, age) values (?, ?, ?)', [
-      user["name"] as String,
-      user["email"] as String,
-      user["age"],
-    ]);
-  }
-
-// var results2 = await conn.queryMulti(
-//     'insert into users (name, email, age) values (?, ?, ?)',
-//     [['Bob', 'bob@bob.com', 25],
-//     ['Bill', 'bill@bill.com', 26],
-//     ['Joe', 'joe@joe.com', 37]])
-  // await conn.query('update users set age=? where name=?', [26, 'Bob']);
-  // var results = await conn.query('SHOW TABLES');
-  // for (var row in results) {
-  //   print('${row[0]}');
-  // }
 }
