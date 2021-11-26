@@ -33,11 +33,11 @@ Future<Response> _login(Request request) async {
       body: 'Falha ao carregar o usuário: Senha inválida',
     );
   }
-
+  //TODO: usar criptografia
   DataBase db = DataBase();
   Results user = await db.login(userMap['email']!, userMap['password']!);
   print('${jsonEncode(user.first.fields)}\n');
-
+  //TODO: criar payload e jwt
   if (user.isEmpty) {
     return Response(
       400,
