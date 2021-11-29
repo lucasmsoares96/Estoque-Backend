@@ -15,7 +15,7 @@ class DataBase {
       host: 'localhost',
       port: 3306,
       user: 'root',
-      password: '123456',
+      password: '12345',
       db: 'estoque');
 
   late MySqlConnection conn;
@@ -25,9 +25,8 @@ class DataBase {
     return conn;
   }
 
-  Future<Results> login(String email, String password) async {
+  Future<Results> login(String email) async {
     return await conn.query(
-        'SELECT email, name FROM user WHERE email = ? AND password = ?',
-        [email, password]);
+        'SELECT email, name, password FROM user WHERE email = ?', [email]);
   }
 }

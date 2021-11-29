@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:estoque_backend/data_base.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:dbcrypt/dbcrypt.dart';
 
 final overrideHeaders = {
   ACCESS_CONTROL_ALLOW_ORIGIN: '*',
@@ -33,19 +34,28 @@ Future<Response> _login(Request request) async {
       body: 'Falha ao carregar o usuário: Senha inválida',
     );
   }
-  //TODO: usar criptografia
   DataBase db = DataBase();
-  Results user = await db.login(userMap['email']!, userMap['password']!);
-  print('${jsonEncode(user.first.fields)}\n');
+  Results user = await db.login(userMap['email']!);
+
+  //TODO: usar criptografia
+  var hashedPassword =
+      new DBCrypt().hashpw(userMap['password'], new DBCrypt().gensalt());
+  //criptografando
+  var isCorrect = new DBCrypt().checkpw('12345678', hashedPassword);
+
   //TODO: criar payload e jwt
-  if (user.isEmpty) {
+  final jwt = JWT(
+      {'nome': user.first.fields['name'], 'email': user.first.fields['email']});
+  String token = jwt.sign(SecretKey('randomword'));
+
+  if (isCorrect) {
     return Response(
       400,
       body:
           'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email e senha',
     );
   }
-  return Response.ok('${jsonEncode(user.first.fields)}\n');
+  return Response.ok(token);
 }
 
 void main(List<String> args) async {

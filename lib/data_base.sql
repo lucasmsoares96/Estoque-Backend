@@ -16,7 +16,7 @@ INSERT INTO user (name,email,password) VALUE ("user2","user2@bar.com","12345678"
 INSERT INTO user (name,email,password) VALUE ("user3","user3@bar.com","12345678" );
 
 
-SELECT * FROM user;
+  SELECT * FROM user;
 
 -- DROP TABLE IF EXISTS `users`;
 -- SHOW TABLES; -- mostra as tabelas
