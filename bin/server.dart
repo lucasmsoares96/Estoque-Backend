@@ -36,19 +36,24 @@ Future<Response> _login(Request request) async {
   }
   DataBase db = DataBase();
   Results user = await db.login(userMap['email']!);
-
+  if (user.isEmpty) {
+    return Response(
+      400,
+      body:
+          'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email',
+    );
+  }
   //TODO: usar criptografia
-  var hashedPassword =
-      new DBCrypt().hashpw(userMap['password'], new DBCrypt().gensalt());
   //criptografando
-  var isCorrect = new DBCrypt().checkpw('12345678', hashedPassword);
+  var isCorrect =
+      new DBCrypt().checkpw(userMap['password'], user.first.fields['password']);
 
   //TODO: criar payload e jwt
   final jwt = JWT(
       {'nome': user.first.fields['name'], 'email': user.first.fields['email']});
   String token = jwt.sign(SecretKey('randomword'));
 
-  if (isCorrect) {
+  if (!isCorrect) {
     return Response(
       400,
       body:
