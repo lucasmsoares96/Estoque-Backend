@@ -2,7 +2,7 @@ class User {
   int? _id;
   String? _cpf;
   String? _name;
-  DateTime? _birthDay;
+  DateTime? _entryDate;
   String? _userType;
   String? _email;
   String? _password;
@@ -35,11 +35,11 @@ class User {
   }
 
   setBirthDay(DateTime birthDay) {
-    _birthDay = birthDay;
+    _entryDate = birthDay;
   }
 
   DateTime? getBirth() {
-    return _birthDay;
+    return _entryDate;
   }
 
   setUserType(String userType) {

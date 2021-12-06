@@ -14,8 +14,8 @@ class DataBase {
   var settings = ConnectionSettings(
       host: 'localhost',
       port: 3306,
-      user: 'root',
-      password: '123456',
+      user: 'alex',
+      password: '32129775@Lex',
       db: 'estoque');
 
   late MySqlConnection conn;
@@ -28,5 +28,19 @@ class DataBase {
   Future<Results> login(String email) async {
     return await conn.query(
         'SELECT email, name, password FROM user WHERE email = ?', [email]);
+  }
+
+  Future<Results> registerUser(Map<String, dynamic> userMap) async {
+    return await conn.query(
+        'INSERT INTO estoque.user(cpf,name,birthDay, userType,email,isAdmin, password) VALUES (?,?,?,?,?,?,?)',
+        [
+          userMap["cpf"],
+          userMap["name"],
+          userMap["birthDay"],
+          userMap["userType"],
+          userMap["email"],
+          userMap["isAdmin"],
+          userMap["password"]
+        ]);
   }
 }
