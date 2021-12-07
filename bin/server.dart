@@ -46,12 +46,10 @@ Future<Response> _login(Request request) async {
           'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email',
     );
   }
-  //TODO: usar criptografia
   //criptografando
   var isCorrect =
       dbcrypt.checkpw(userMap['password'], user.first.fields['password']);
-
-  //TODO: criar payload e jwt
+  //criação do token
   final jwt = JWT(
       {'nome': user.first.fields['name'], 'email': user.first.fields['email']});
   String token = jwt.sign(SecretKey(env['secret']!));

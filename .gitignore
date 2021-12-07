@@ -2,5 +2,6 @@
 .dart_tool/
 .packages
 .env
+.vscode/settings.json
 # Conventional directory for build output.
 build/
