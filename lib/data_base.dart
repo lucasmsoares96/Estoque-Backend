@@ -29,8 +29,7 @@ class DataBase {
 
   Future<Results> login(String email) async {
     return await conn.query(
-        'SELECT email, name, password, isADMIN FROM user WHERE email = ?',
-        [email]);
+        'SELECT email, name, password FROM user WHERE email = ?', [email]);
   }
 
   Future<Results> registerUser(Map<String, dynamic> userMap) async {
