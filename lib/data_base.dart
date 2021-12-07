@@ -1,10 +1,12 @@
 import 'package:mysql1/mysql1.dart';
+import 'package:dotenv/dotenv.dart' show load, env;
 
 class DataBase {
   // Pedrão de Projeto: Singleton
   static final DataBase _dataBase = DataBase._internal();
 
   factory DataBase() {
+    load();
     return _dataBase;
   }
 
@@ -13,9 +15,9 @@ class DataBase {
 
   var settings = ConnectionSettings(
       host: 'localhost',
-      port: 3306,
-      user: 'alex',
-      password: '32129775@Lex',
+      port: int.parse(env['port'] ?? "3306"),
+      user: env['user'],
+      password: env['password'],
       db: 'estoque');
 
   late MySqlConnection conn;

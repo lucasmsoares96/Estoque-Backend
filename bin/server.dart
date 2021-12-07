@@ -8,12 +8,13 @@ import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:dbcrypt/dbcrypt.dart';
+import 'package:dotenv/dotenv.dart' show load, env;
 
 final overrideHeaders = {
   ACCESS_CONTROL_ALLOW_ORIGIN: '*',
   'Content-Type': 'application/json;charset=utf-8'
 };
-DBCrypt dbcrypt = new DBCrypt();
+DBCrypt dbcrypt = DBCrypt();
 final _router = Router()
   ..post('/login', _login)
   ..post('/registerUser', _registerUser);
@@ -53,7 +54,7 @@ Future<Response> _login(Request request) async {
   //TODO: criar payload e jwt
   final jwt = JWT(
       {'nome': user.first.fields['name'], 'email': user.first.fields['email']});
-  String token = jwt.sign(SecretKey('randomword'));
+  String token = jwt.sign(SecretKey(env['secret']!));
 
   if (!isCorrect) {
     return Response(
@@ -97,6 +98,7 @@ verify(String token) {
 
 void main(List<String> args) async {
   DataBase db = DataBase();
+  load();
   db.connect();
   // final ip = InternetAddress.anyIPv4;
   final ip = "127.0.0.1";
