@@ -8,14 +8,15 @@ import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:dbcrypt/dbcrypt.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
 
 final overrideHeaders = {
   ACCESS_CONTROL_ALLOW_ORIGIN: '*',
   'Content-Type': 'application/json;charset=utf-8'
 };
-
-final _router = Router()..post('/login', _login);
+DBCrypt dbcrypt = new DBCrypt();
+final _router = Router()
+  ..post('/login', _login)
+  ..post('/registerUser', _registerUser);
 
 Future<Response> _login(Request request) async {
   String message = await request.readAsString();
@@ -47,12 +48,12 @@ Future<Response> _login(Request request) async {
   //TODO: usar criptografia
   //criptografando
   var isCorrect =
-      new DBCrypt().checkpw(userMap['password'], user.first.fields['password']);
+      dbcrypt.checkpw(userMap['password'], user.first.fields['password']);
 
   //TODO: criar payload e jwt
   final jwt = JWT(
       {'nome': user.first.fields['name'], 'email': user.first.fields['email']});
-  String token = jwt.sign(SecretKey(env['secret']!));
+  String token = jwt.sign(SecretKey('randomword'));
 
   if (!isCorrect) {
     return Response(
@@ -62,6 +63,36 @@ Future<Response> _login(Request request) async {
     );
   }
   return Response.ok(token);
+}
+
+Future<Response> _registerUser(Request request) async {
+  String message = await request.readAsString();
+  Map<String, dynamic> userMap = jsonDecode(message);
+  userMap["password"] = dbcrypt.hashpw(userMap["password"], dbcrypt.gensalt());
+
+  try {
+    await DataBase().registerUser(userMap);
+  } catch (e) {
+    return Response(
+      500,
+      body: e.toString(),
+    );
+  }
+
+  return Response.ok('Usuário registrado com sucesso!!');
+}
+
+verify(String token) {
+  try {
+    // Verify a token
+    final jwt = JWT.verify(token, SecretKey('randomword'));
+
+    print('Payload: ${jwt.payload}');
+  } on JWTExpiredError {
+    print('jwt expired');
+  } on JWTError catch (ex) {
+    print(ex.message); // ex: invalid signature
+  }
 }
 
 void main(List<String> args) async {
@@ -76,5 +107,4 @@ void main(List<String> args) async {
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(_handler, ip, port);
   print('Server listening on port ${server.port}');
-  load();
 }

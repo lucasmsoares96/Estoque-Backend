@@ -15,7 +15,6 @@ dependencies:
   shelf_router: ^1.0.0
   dart_jsonwebtoken: ^2.4.0
   dbcrypt: ^2.0.0
-  dotenv: ^3.0.0
 
 dev_dependencies:
   http: ^0.13.0
