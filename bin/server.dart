@@ -17,7 +17,8 @@ final overrideHeaders = {
 DBCrypt dbcrypt = DBCrypt();
 final _router = Router()
   ..post('/login', _login)
-  ..post('/registerUser', _registerUser);
+  ..post('/registerUser', _registerUser)
+  ..get('/getUsers', _getUsers);
 
 Future<Response> _login(Request request) async {
   String message = await request.readAsString();
@@ -46,12 +47,19 @@ Future<Response> _login(Request request) async {
           'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email',
     );
   }
+  //TODO: usar criptografia
   //criptografando
-  var isCorrect =
-      dbcrypt.checkpw(userMap['password'], user.first.fields['password']);
-  //criação do token
-  final jwt = JWT(
-      {'nome': user.first.fields['name'], 'email': user.first.fields['email']});
+  var isCorrect = dbcrypt.checkpw(
+    userMap['password'],
+    user.first.fields['password'],
+  );
+
+  //TODO: criar payload e jwt
+  final jwt = JWT({
+    'name': user.first.fields['name'],
+    'email': user.first.fields['email'],
+    'isAdmin': user.first.fields['isADMIN']
+  });
   String token = jwt.sign(SecretKey(env['secret']!));
 
   if (!isCorrect) {
@@ -68,30 +76,61 @@ Future<Response> _registerUser(Request request) async {
   String message = await request.readAsString();
   Map<String, dynamic> userMap = jsonDecode(message);
   userMap["password"] = dbcrypt.hashpw(userMap["password"], dbcrypt.gensalt());
-
+  if (verify(userMap['jwt'])['isAdmin'] == 1) {
+    print("This user is Admin");
+  } else {
+    return Response(
+      400,
+      body: "This user is not Admin",
+    );
+  }
   try {
     await DataBase().registerUser(userMap);
+  } on MySqlException catch (e) {
+    return Response(
+      500,
+      body: e.toString(),
+    );
   } catch (e) {
     return Response(
       500,
       body: e.toString(),
     );
   }
-
   return Response.ok('Usuário registrado com sucesso!!');
 }
 
-verify(String token) {
+dynamic verify(String token) {
   try {
     // Verify a token
     final jwt = JWT.verify(token, SecretKey('randomword'));
-
     print('Payload: ${jwt.payload}');
+    return jwt.payload;
   } on JWTExpiredError {
     print('jwt expired');
+    throw JWTExpiredError;
   } on JWTError catch (ex) {
     print(ex.message); // ex: invalid signature
+    throw JWTError(ex.message);
   }
+}
+
+Future<Response> _getUsers(Request request) async {
+  String message = await request.readAsString();
+  Map<String, dynamic> token = jsonDecode(message);
+  if (verify(token['jwt'])['isAdmin'] == 1) {
+    print("This user is Admin");
+  } else {
+    return Response(
+      400,
+      body: "This user is not Admin",
+    );
+  }
+  Results users;
+  DataBase db = DataBase();
+  users = await db.getUsers();
+
+  return Response.ok('${jsonEncode(users.toList())}\n');
 }
 
 void main(List<String> args) async {

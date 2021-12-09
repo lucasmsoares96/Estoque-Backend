@@ -29,20 +29,27 @@ class DataBase {
 
   Future<Results> login(String email) async {
     return await conn.query(
-        'SELECT email, name, password FROM user WHERE email = ?', [email]);
+        'SELECT email, name, password, isADMIN FROM user WHERE email = ?',
+        [email]);
   }
 
   Future<Results> registerUser(Map<String, dynamic> userMap) async {
     return await conn.query(
-        'INSERT INTO estoque.user(cpf,name,birthDay, userType,email,isAdmin, password) VALUES (?,?,?,?,?,?,?)',
-        [
-          userMap["cpf"],
-          userMap["name"],
-          userMap["birthDay"],
-          userMap["userType"],
-          userMap["email"],
-          userMap["isAdmin"],
-          userMap["password"]
-        ]);
+      'INSERT INTO estoque.user(cpf,name,birthDay, userType,email,isAdmin, password) VALUES (?,?,?,?,?,?,?)',
+      [
+        userMap["cpf"],
+        userMap["name"],
+        userMap["birthDay"],
+        userMap["userType"],
+        userMap["email"],
+        userMap["isAdmin"],
+        userMap["password"]
+      ],
+    );
+  }
+
+  Future<Results> getUsers() async {
+    return await conn.query(
+        'SELECT name, CAST(birthDay as CHAR) as birthDay, userType, email, isAdmin from user');
   }
 }
