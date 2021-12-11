@@ -27,12 +27,14 @@ Future<Response> _login(Request request) async {
   if (!userMap["email"]!
       .toString()
       .contains(RegExp('^[a-z0-9.]+@[a-z0-9]+.[a-z]+\.([a-z]+)?\$'))) {
+    print('Falha ao carregar o usuário: Email inválido');
     return Response(
       400,
       body: 'Falha ao carregar o usuário: Email inválido',
     );
   }
   if (!userMap["password"]!.contains(RegExp('.{8,50}'))) {
+    print('Falha ao carregar o usuário: Senha inválida');
     return Response(
       400,
       body: 'Falha ao carregar o usuário: Senha inválida',
@@ -41,6 +43,8 @@ Future<Response> _login(Request request) async {
   DataBase db = DataBase();
   Results user = await db.login(userMap['email']!);
   if (user.isEmpty) {
+    print(
+        'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email');
     return Response(
       400,
       body:
@@ -63,6 +67,8 @@ Future<Response> _login(Request request) async {
   String token = jwt.sign(SecretKey(env['secret']!));
 
   if (!isCorrect) {
+    print(
+        'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email e senha');
     return Response(
       400,
       body:
@@ -79,6 +85,7 @@ Future<Response> _registerUser(Request request) async {
   if (verify(userMap['jwt'])['isAdmin'] == 1) {
     print("This user is Admin");
   } else {
+    print("This user is not Admin");
     return Response(
       400,
       body: "This user is not Admin",
@@ -87,11 +94,13 @@ Future<Response> _registerUser(Request request) async {
   try {
     await DataBase().registerUser(userMap);
   } on MySqlException catch (e) {
+    print(e);
     return Response(
       500,
       body: e.toString(),
     );
   } catch (e) {
+    print(e);
     return Response(
       500,
       body: e.toString(),
@@ -121,6 +130,7 @@ Future<Response> _getUsers(Request request) async {
   if (verify(token['jwt'])['isAdmin'] == 1) {
     print("This user is Admin");
   } else {
+    print("This user is not Admin");
     return Response(
       400,
       body: "This user is not Admin",
@@ -129,7 +139,6 @@ Future<Response> _getUsers(Request request) async {
   Results users;
   DataBase db = DataBase();
   users = await db.getUsers();
-
   return Response.ok('${jsonEncode(users.toList())}\n');
 }
 
