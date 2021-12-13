@@ -35,11 +35,11 @@ class DataBase {
 
   Future<Results> registerUser(Map<String, dynamic> userMap) async {
     return await conn.query(
-      'INSERT INTO estoque.user(cpf,name,birthDay, userType,email,isAdmin, password) VALUES (?,?,?,?,?,?,?)',
+      'INSERT INTO estoque.user(cpf,name,entryDate, userType,email,isAdmin, password) VALUES (?,?,?,?,?,?,?)',
       [
         userMap["cpf"],
         userMap["name"],
-        userMap["birthDay"],
+        userMap["entryDate"],
         userMap["userType"],
         userMap["email"],
         userMap["isAdmin"],
@@ -50,6 +50,6 @@ class DataBase {
 
   Future<Results> getUsers() async {
     return await conn.query(
-        'SELECT name, CAST(birthDay as CHAR) as birthDay, userType, email, isAdmin from user');
+        'SELECT name, CAST(entryDate as CHAR) as entryDate, userType, email, isAdmin from user');
   }
 }

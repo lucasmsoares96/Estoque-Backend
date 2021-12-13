@@ -34,8 +34,8 @@ class User {
     return _name;
   }
 
-  setBirthDay(DateTime birthDay) {
-    _entryDate = birthDay;
+  setentryDate(DateTime entryDate) {
+    _entryDate = entryDate;
   }
 
   DateTime? getBirth() {
