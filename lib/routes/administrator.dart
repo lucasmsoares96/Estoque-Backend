@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:estoque_backend/data_base.dart';
 import 'package:estoque_backend/models/user.dart';
+import 'package:estoque_backend/routes/abstract_routes.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
 import 'package:dbcrypt/dbcrypt.dart';
-import 'package:estoque_backend/routes/routes.dart';
 
-class Administrator extends Routes {
+class Administrator extends AbstractRoutes {
   Administrator();
 
   DBCrypt dbcrypt = DBCrypt();

@@ -6,8 +6,9 @@ import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:dbcrypt/dbcrypt.dart';
+import 'package:estoque_backend/routes/abstract_routes.dart';
 
-class Users {
+class Users extends AbstractRoutes {
   Users();
 
   DBCrypt dbcrypt = DBCrypt();
