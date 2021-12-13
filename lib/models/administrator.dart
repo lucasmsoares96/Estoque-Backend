@@ -1,9 +1,9 @@
 import 'user.dart';
 
-class Administrator extends User {
-  void removeUser() {}
+// class Administrator extends User {
+//   void removeUser() {}
 
-  void editUser() {}
+//   void editUser() {}
 
-  void registerUser() {}
-}
+//   void registerUser() {}
+// }
