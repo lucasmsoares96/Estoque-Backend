@@ -6,27 +6,33 @@ class User {
   String? _userType;
   String? _email;
   String? _password;
+  String? _hash;
   bool _isAdmin = false;
 
   User(Map<String, dynamic> u) {
+    setEmail(u['email']);
+    setPassword(u['password']);
+  }
+
+  User.fromUser(Map<String, dynamic> u) {
     setCpf(u['cpf']);
     setName(u['name']);
-    setEntryDate(u['entryDate']);
+    setEntryDate(DateTime.parse(u['entryDate']));
     setUserType(u['userType']);
     setEmail(u['email']);
     setPassword(u['password']);
-    setIsAdmin(u['isADMIN']);
+    setisAdmin(u['isAdmin']);
   }
 
   Map<String, dynamic> toMap() {
-    return Map<String, dynamic>()
+    return <String, dynamic>{}
       ..['cpf'] = getCpf()
       ..['name'] = getName()
       ..['entryDate'] = getEntryDate()
       ..['userType'] = getUserType()
       ..['email'] = getEmail()
-      ..['password'] = getPassword()
-      ..['isADMIN'] = getIsAdmin();
+      ..['hash'] = getHash()
+      ..['isAdmin'] = getisAdmin();
   }
 
   setId(int id) {
@@ -50,7 +56,7 @@ class User {
   }
 
   setName(String name) {
-    if (name.toString().contains(RegExp('^[a-zA-Z ]{1,50}\$'))) {
+    if (!name.toString().contains(RegExp('^[a-zA-Z ]{1,50}\$'))) {
       print('Falha ao carregar o usuário: Nome inválido');
       throw Exception('Falha ao carregar o usuário: Nome inválido');
     }
@@ -62,12 +68,6 @@ class User {
   }
 
   setEntryDate(DateTime entryDate) {
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.year, now.month, now.day);
-    if (entryDate.compareTo(date) > 0) {
-      print('Falha ao carregar o usuário: Data inválida');
-      throw Exception('Falha ao carregar o usuário: Data futura');
-    }
     _entryDate = entryDate;
   }
 
@@ -106,18 +106,25 @@ class User {
       print('Falha ao carregar o usuário: Senha inválida');
       throw Exception('Falha ao carregar o usuário: Senha inválida');
     }
-    _password = password;
   }
 
   String? getPassword() {
     return _password;
   }
 
-  setIsAdmin(bool isAdmin) {
+  setisAdmin(bool isAdmin) {
     _isAdmin = isAdmin;
   }
 
-  bool getIsAdmin() {
+  bool getisAdmin() {
     return _isAdmin;
+  }
+
+  setHash(String hash) {
+    _hash = hash;
+  }
+
+  String? getHash() {
+    return _hash;
   }
 }

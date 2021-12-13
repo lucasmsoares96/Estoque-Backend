@@ -4,7 +4,7 @@ import 'package:estoque_backend/routes/routes.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart' show load;
 
 final overrideHeaders = {
   ACCESS_CONTROL_ALLOW_ORIGIN: '*',
