@@ -8,7 +8,7 @@ class Routes {
   final _router = Router()
     ..post('/login', Users().login)
     ..post('/registerUser', Administrator().registerUser)
-    ..get('/getUsers', Administrator().getUsers);
+    ..post('/getUsers', Administrator().getUsers);
 
   Router getRouter() {
     return _router;
