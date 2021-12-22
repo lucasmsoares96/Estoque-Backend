@@ -18,7 +18,7 @@ DBCrypt dbcrypt = DBCrypt();
 final _router = Router()
   ..post('/login', _login)
   ..post('/registerUser', _registerUser)
-  ..get('/getUsers', _getUsers);
+  ..post('/getUsers', _getUsers);
 
 Future<Response> _login(Request request) async {
   String message = await request.readAsString();
