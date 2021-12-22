@@ -14,6 +14,20 @@ CREATE TABLE user (
   isAdmin BOOL NOT NULL
 );
 
+CREATE TABLE product (
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  productType VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE estoque(
+	id INTEGER NOT NULL,
+	quantity INTEGER NOT NULL,
+	CONSTRAINT PRIMARY KEY(id),
+	CONSTRAINT fk_product FOREIGN KEY (id) REFERENCES product(id)
+);
+
+
 INSERT INTO user (NAME,cpf,email,PASSWORD,entryDate,userType,isAdmin) 
 VALUE ("admin","11111111111","foo@bar.com","$2b$10$8AXCe3s26kXj6DsU47q4Yu4Z4yzU22WlyOc4/YCI0peM0rv1dpUlu","1999-07-23","Testador",1);
 
