@@ -17,7 +17,8 @@ CREATE TABLE user (
 INSERT INTO user (NAME,cpf,email,PASSWORD,entryDate,userType,isADMIN) 
 VALUE ("admin","11111111111","foo@bar.com","$2b$10$8AXCe3s26kXj6DsU47q4Yu4Z4yzU22WlyOc4/YCI0peM0rv1dpUlu","1999-07-23","Testador",1);
 
+SELECT * FROM user;
+
 -- DROP TABLE IF EXISTS `users`;
 -- SHOW TABLES; -- mostra as tabelas
-
 -- SHOW COLUMNS FROM users; --mostra as colunas
