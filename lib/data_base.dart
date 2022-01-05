@@ -51,6 +51,21 @@ class DataBase {
 
   Future<Results> getUsers() async {
     return await conn.query(
-        'SELECT name, CAST(entryDate as CHAR) as entryDate, userType, email, isAdmin from user');
+        'SELECT name, CAST(entryDate as CHAR) as entryDate, userType, email, isAdmin FROM user');
+  }
+
+  Future<Results> includeProduct(Map<String, dynamic> productMap) async {
+    print(productMap);
+    return await conn.query(
+      'INSERT INTO estoque.product(name,productType) VALUES (?,?)',
+      [
+        productMap["name"],
+        productMap["productType"],
+      ],
+    );
+  }
+
+  Future<Results> getProducts() async {
+    return await conn.query('SELECT name, productType FROM product');
   }
 }

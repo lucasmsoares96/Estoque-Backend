@@ -61,7 +61,21 @@ class Administrator extends AbstractRoutes {
     }
     Results users;
     DataBase db = DataBase();
-    users = await db.getUsers();
+    try {
+      users = await db.getUsers();
+    } on MySqlException catch (e) {
+      print(e);
+      return Response(
+        500,
+        body: e.toString(),
+      );
+    } catch (e) {
+      print(e);
+      return Response(
+        500,
+        body: e.toString(),
+      );
+    }
     return Response.ok('${jsonEncode(users.toList())}\n');
   }
 }

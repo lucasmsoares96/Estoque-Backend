@@ -10,8 +10,11 @@ class AbstractRoutes {
       print('jwt expired');
       throw JWTExpiredError;
     } on JWTError catch (ex) {
-      print(ex.message);
-      throw JWTError(ex.message);
+      print('Erro no jwt: ' + ex.message);
+      throw JWTError('Erro no jwt: ' + ex.message);
+    } on FormatException catch (ex) {
+      print('Erro no formato do jwt: ' + ex.message);
+      throw JWTError('Erro no formato do jwt: ' + ex.message);
     }
   }
 }

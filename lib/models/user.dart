@@ -25,14 +25,15 @@ class User {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{}
-      ..['cpf'] = getCpf()
-      ..['name'] = getName()
-      ..['entryDate'] = getEntryDate()
-      ..['userType'] = getUserType()
-      ..['email'] = getEmail()
-      ..['hash'] = getHash()
-      ..['isAdmin'] = getisAdmin();
+    return <String, dynamic>{
+      'cpf': getCpf(),
+      'name': getName(),
+      'entryDate': getEntryDate(),
+      'userType': getUserType(),
+      'email': getEmail(),
+      'hash': getHash(),
+      'isAdmin': getisAdmin(),
+    };
   }
 
   setId(int id) {

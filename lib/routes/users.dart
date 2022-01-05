@@ -15,7 +15,7 @@ class Users extends AbstractRoutes {
 
   Future<Response> login(Request request) async {
     String message = await request.readAsString();
-    User u = new User(jsonDecode(message));
+    User u = User(jsonDecode(message));
     DataBase db = DataBase();
     Results userResult = await db.login(u.getEmail()!);
     if (userResult.isEmpty) {
