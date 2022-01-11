@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:estoque_backend/data_base.dart';
-import 'package:estoque_backend/models/user.dart';
 import 'package:estoque_backend/models/product.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
-import 'package:dotenv/dotenv.dart' show env;
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:estoque_backend/routes/abstract_routes.dart';
 
@@ -43,7 +40,7 @@ class Products extends AbstractRoutes {
     Results products;
     DataBase db = DataBase();
     try {
-      verify(token['token']);
+      verify(token['jwt']);
       products = await db.getProducts();
     } on MySqlException catch (e) {
       print(e);

@@ -20,7 +20,7 @@ class Administrator extends AbstractRoutes {
       userMap["user"]["password"]!,
       dbcrypt.gensalt(),
     ));
-    if (verify(userMap['token'])['isAdmin'] == 1) {
+    if (verify(userMap['jwt'])['isAdmin'] == 1) {
       print("This user is Admin");
     } else {
       print("This user is not Admin");
@@ -50,7 +50,7 @@ class Administrator extends AbstractRoutes {
   Future<Response> getUsers(Request request) async {
     String message = await request.readAsString();
     Map<String, dynamic> token = jsonDecode(message);
-    if (verify(token['token'])['isAdmin'] == 1) {
+    if (verify(token['jwt'])['isAdmin'] == 1) {
       print("This user is Admin");
     } else {
       print("This user is not Admin");
