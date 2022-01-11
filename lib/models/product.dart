@@ -24,6 +24,10 @@ class Product {
   }
 
   setName(String name) {
+    if (!name.toString().contains(RegExp('^[a-zA-Z ]{1,50}\$'))) {
+      print('Falha ao carregar o usuário: Nome do produto inválido');
+      throw Exception('Falha ao carregar o usuário: Nome do produto inválido');
+    }
     _name = name;
   }
 
@@ -32,6 +36,10 @@ class Product {
   }
 
   setProductType(String productType) {
+    if (!productType.toString().contains(RegExp('^[a-zA-Z ]{1,50}\$'))) {
+      print('Falha ao carregar o usuário: Nome do produto inválido');
+      throw Exception('Falha ao carregar o usuário: Nome do produto inválido');
+    }
     _productType = productType;
   }
 
