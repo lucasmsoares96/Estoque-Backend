@@ -14,7 +14,7 @@ class Products extends AbstractRoutes {
   Future<Response> includeProduct(Request request) async {
     String message = await request.readAsString();
     Map<String, dynamic> productMap = jsonDecode(message);
-    print(productMap["product"]);
+    print(productMap);
     Product p = Product.fromProduct(productMap["product"]);
     try {
       await DataBase().includeProduct(p.toMap());

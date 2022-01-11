@@ -14,7 +14,7 @@ class Administrator extends AbstractRoutes {
   Future<Response> registerUser(Request request) async {
     String message = await request.readAsString();
     Map<String, dynamic> userMap = jsonDecode(message);
-    print(userMap["user"]);
+    print(userMap);
     User u = User.fromUser(userMap["user"]);
     u.setHash(dbcrypt.hashpw(
       userMap["user"]["password"]!,
