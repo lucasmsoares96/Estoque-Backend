@@ -34,7 +34,6 @@ class DataBase {
   }
 
   Future<Results> registerUser(Map<String, dynamic> userMap) async {
-    print(userMap);
     return await conn.query(
       'INSERT INTO estoque.user(cpf,name,entryDate, userType,email,isAdmin, password) VALUES (?,?,?,?,?,?,?)',
       [
@@ -55,7 +54,6 @@ class DataBase {
   }
 
   Future<Results> includeProduct(Map<String, dynamic> productMap) async {
-    print(productMap);
     return await conn.query(
       'INSERT INTO estoque.product(name,productType) VALUES (?,?)',
       [
@@ -65,12 +63,26 @@ class DataBase {
     );
   }
 
+  Future<Results> updateProduct(Map<String, dynamic> productMap) async {
+    return await conn.query(
+        'UPDATE product SET name = ?, productType = ? WHERE id = ?;',
+        [productMap["name"], productMap["productType"], productMap["id"]]);
+  }
+
   Future<Results> getProducts() async {
-    return await conn.query('SELECT name, productType FROM product');
+    return await conn.query('SELECT id, name, productType FROM product');
+  }
+
+  Future<Results> getProduct(Map<String, dynamic> productMap) async {
+    return await conn.query(
+        'SELECT name, productType FROM product WHERE name = ?;',
+        [productMap["name"]]);
   }
 
   Future<Results> deleteProduct(Map<String, dynamic> productMap) async {
+    print(productMap);
+    print("TESTE");
     return await conn
-        .query('DELETE FROM product WHERE name = ?;', [productMap["name"]]);
+        .query('DELETE FROM product WHERE id = ?;', [productMap["id"]]);
   }
 }

@@ -27,6 +27,7 @@ class Users extends AbstractRoutes {
             'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email',
       );
     }
+
     //criptografando
     if (!dbcrypt.checkpw(
       jsonDecode(message)['password'],

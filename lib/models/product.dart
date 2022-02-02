@@ -12,6 +12,7 @@ class Product {
     return <String, dynamic>{
       'name': getName(),
       'productType': getProductType(),
+      'id': getId()
     };
   }
 
