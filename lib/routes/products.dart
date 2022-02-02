@@ -13,10 +13,11 @@ class Products extends AbstractRoutes {
 
   Future<Response> includeProduct(Request request) async {
     String message = await request.readAsString();
+    String token = request.headers['Authorization']!;
     Map<String, dynamic> productMap = jsonDecode(message);
-    Product p = Product.fromProduct(productMap["product"]);
+    Product p = Product.fromMap(productMap["product"]);
     try {
-      verify(productMap['jwt']);
+      verify(token);
       await DataBase().includeProduct(p.toMap());
     } on MySqlException catch (e) {
       print(e);
@@ -36,11 +37,12 @@ class Products extends AbstractRoutes {
 
   Future<Response> updateProduct(Request request) async {
     String message = await request.readAsString();
+    String token = request.headers['Authorization']!;
     Map<String, dynamic> productMap = jsonDecode(message);
-    Product p = Product.fromProduct(productMap["product"]);
-    p.setId(int.parse(productMap["product"]["id"]));
+    Product p = Product.fromMap(productMap["product"]);
+    p.id = productMap["product"]["id"];
     try {
-      verify(productMap['jwt']);
+      verify(token);
       await DataBase().updateProduct(p.toMap());
     } on MySqlException catch (e) {
       print(e);
@@ -60,11 +62,14 @@ class Products extends AbstractRoutes {
 
   Future<Response> deleteProduct(Request request) async {
     String message = await request.readAsString();
+    String token = request.headers['Authorization']!;
     Map<String, dynamic> productMap = jsonDecode(message);
-    Product p = Product.fromProduct(productMap["product"]);
-    p.setId(int.parse(productMap["product"]["id"]));
+    print("ProductMap");
+    print(productMap);
+    Product p = Product.fromMap(productMap["product"]);
+    p.id = productMap["product"]["id"];
     try {
-      verify(productMap['jwt']);
+      verify(token);
       await DataBase().deleteProduct(p.toMap());
     } on MySqlException catch (e) {
       print(e);
@@ -83,12 +88,11 @@ class Products extends AbstractRoutes {
   }
 
   Future<Response> getProducts(Request request) async {
-    String message = await request.readAsString();
-    Map<String, dynamic> token = jsonDecode(message);
+    String token = request.headers['Authorization']!;
     Results products;
     DataBase db = DataBase();
     try {
-      verify(token['jwt']);
+      verify(token);
       products = await db.getProducts();
     } on MySqlException catch (e) {
       print(e);
@@ -108,11 +112,12 @@ class Products extends AbstractRoutes {
 
   Future<Response> getProduct(Request request) async {
     String message = await request.readAsString();
+    String token = request.headers['Authorization']!;
     Map<String, dynamic> productMap = jsonDecode(message);
     Results products;
     DataBase db = DataBase();
     try {
-      verify(productMap['jwt']);
+      verify(token);
       products = await db.getProduct(productMap["product"]);
     } on MySqlException catch (e) {
       print(e);

@@ -9,10 +9,10 @@ class Routes {
   final _router = Router()
     ..post('/login', Users().login)
     ..post('/registerUser', Administrator().registerUser)
-    ..post('/getUsers', Administrator().getUsers)
     ..post('/includeProduct', Products().includeProduct)
-    ..post('/getProducts', Products().getProducts)
-    ..post('/getProduct', Products().getProduct)
+    ..get('/getUsers', Administrator().getUsers)
+    ..get('/getProducts', Products().getProducts)
+    ..get('/getProduct', Products().getProduct)
     ..put('/updateProduct', Products().updateProduct)
     ..delete('/deleteProduct', Products().deleteProduct);
 
