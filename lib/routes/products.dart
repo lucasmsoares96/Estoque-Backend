@@ -34,6 +34,30 @@ class Products extends AbstractRoutes {
     return Response.ok('Produto incluído com sucesso!!');
   }
 
+  Future<Response> deleteProduct(Request request) async {
+    String message = await request.readAsString();
+    Map<String, dynamic> productMap = jsonDecode(message);
+    print(productMap["product"]);
+    Product p = Product.fromProduct(productMap["product"]);
+    try {
+      verify(productMap['jwt']);
+      await DataBase().deleteProduct(p.toMap());
+    } on MySqlException catch (e) {
+      print(e);
+      return Response(
+        500,
+        body: e.toString(),
+      );
+    } catch (e) {
+      print(e);
+      return Response(
+        500,
+        body: e.toString(),
+      );
+    }
+    return Response.ok('Produto deletado com sucesso!!');
+  }
+
   Future<Response> getProducts(Request request) async {
     String message = await request.readAsString();
     Map<String, dynamic> token = jsonDecode(message);

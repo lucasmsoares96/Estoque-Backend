@@ -11,7 +11,8 @@ class Routes {
     ..post('/registerUser', Administrator().registerUser)
     ..post('/getUsers', Administrator().getUsers)
     ..post('/includeProduct', Products().includeProduct)
-    ..post('/getProducts', Products().getProducts);
+    ..post('/getProducts', Products().getProducts)
+    ..delete('/deleteProduct', Products().deleteProduct);
 
   Router getRouter() {
     return _router;
