@@ -1,30 +1,23 @@
 class Product {
-  int? _id;
+  int? id;
   String? _name;
   String? _productType;
 
-  Product.fromProduct(Map<String, dynamic> u) {
-    setName(u['name']);
-    setProductType(u['productType']);
+  Product.fromMap(Map<String, dynamic> u) {
+    id = u["id"];
+    _name = u["name"];
+    _productType = u["productType"];
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'name': getName(),
-      'productType': getProductType(),
-      'id': getId()
+      'id': id,
+      'name': _name,
+      'productType': productType,
     };
   }
 
-  setId(int id) {
-    _id = id;
-  }
-
-  int? getId() {
-    return _id;
-  }
-
-  setName(String name) {
+  set name(String name) {
     if (!name.toString().contains(RegExp('^[a-zA-Z ]{1,50}\$'))) {
       print('Falha ao carregar o usuário: Nome do produto inválido');
       throw Exception('Falha ao carregar o usuário: Nome do produto inválido');
@@ -32,11 +25,9 @@ class Product {
     _name = name;
   }
 
-  String? getName() {
-    return _name;
-  }
+  String get name => _name!;
 
-  setProductType(String productType) {
+  set productType(String productType) {
     if (!productType.toString().contains(RegExp('^[a-zA-Z ]{1,50}\$'))) {
       print('Falha ao carregar o usuário: Tipo de produto inválido');
       throw Exception('Falha ao carregar o usuário: Tipo de produto inválido');
@@ -44,7 +35,5 @@ class Product {
     _productType = productType;
   }
 
-  String? getProductType() {
-    return _productType;
-  }
+  String get productType => _productType!;
 }
