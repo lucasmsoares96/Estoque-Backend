@@ -5,6 +5,7 @@ import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:estoque_backend/routes/abstract_routes.dart';
+import 'package:shelf_router/src/router.dart';
 
 class Products extends AbstractRoutes {
   Products();
@@ -111,14 +112,13 @@ class Products extends AbstractRoutes {
   }
 
   Future<Response> getProduct(Request request) async {
-    String message = await request.readAsString();
+    Map<String, dynamic> message = request.params;
     String token = request.headers['Authorization']!;
-    Map<String, dynamic> productMap = jsonDecode(message);
     Results products;
     DataBase db = DataBase();
     try {
       verify(token);
-      products = await db.getProduct(productMap["product"]);
+      products = await db.getProduct(message["message"]);
     } on MySqlException catch (e) {
       print(e);
       return Response(

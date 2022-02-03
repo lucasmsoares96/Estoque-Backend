@@ -12,10 +12,9 @@ class Routes {
     ..post('/includeProduct', Products().includeProduct)
     ..get('/getUsers', Administrator().getUsers)
     ..get('/getProducts', Products().getProducts)
-    ..get('/getProduct', Products().getProduct)
+    ..get('/getProduct/<message>', Products().getProduct)
     ..put('/updateProduct', Products().updateProduct)
     ..delete('/deleteProduct', Products().deleteProduct);
-
   Router getRouter() {
     return _router;
   }
