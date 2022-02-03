@@ -8,13 +8,13 @@ class Routes {
 
   final _router = Router()
     ..post('/login', Users().login)
-    ..post('/registerUser', Administrator().registerUser)
-    ..post('/includeProduct', Products().includeProduct)
-    ..get('/getUsers', Administrator().getUsers)
-    ..get('/getProducts', Products().getProducts)
-    ..get('/getProduct/<message>', Products().getProduct)
-    ..put('/updateProduct', Products().updateProduct)
-    ..delete('/deleteProduct', Products().deleteProduct);
+    ..post('/users', Administrator().registerUser)
+    ..get('/users', Administrator().getUsers)
+    ..post('/products', Products().includeProduct)
+    ..get('/products', Products().getProducts)
+    ..get('/products/<name>', Products().getProduct)
+    ..put('/products', Products().updateProduct)
+    ..delete('/products', Products().deleteProduct);
   Router getRouter() {
     return _router;
   }

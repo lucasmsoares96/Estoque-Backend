@@ -12,17 +12,21 @@ final overrideHeaders = {
 };
 
 void main(List<String> args) async {
-  DataBase db = DataBase();
-  Routes rt = Routes();
-  load();
-  db.connect();
-  // final ip = InternetAddress.anyIPv4;
-  final ip = "127.0.0.1";
-  final _handler = Pipeline()
-      .addMiddleware(corsHeaders(headers: overrideHeaders))
-      .addMiddleware(logRequests())
-      .addHandler(rt.getRouter());
-  final port = int.parse(Platform.environment['PORT'] ?? '8080');
-  final server = await serve(_handler, ip, port);
-  print('Server listening on port ${server.port}');
+  try {
+    DataBase db = DataBase();
+    Routes rt = Routes();
+    load();
+    db.connect();
+    // final ip = InternetAddress.anyIPv4;
+    final ip = "127.0.0.1";
+    final _handler = Pipeline()
+        .addMiddleware(corsHeaders(headers: overrideHeaders))
+        .addMiddleware(logRequests())
+        .addHandler(rt.getRouter());
+    final port = int.parse(Platform.environment['PORT'] ?? '8080');
+    final server = await serve(_handler, ip, port);
+    print('Server listening on port ${server.port}');
+  } catch (e) {
+    print(e);
+  }
 }

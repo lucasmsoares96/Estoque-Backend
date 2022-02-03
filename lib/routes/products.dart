@@ -112,13 +112,13 @@ class Products extends AbstractRoutes {
   }
 
   Future<Response> getProduct(Request request) async {
-    Map<String, dynamic> message = request.params;
+    Map<String, String> product = request.params;
     String token = request.headers['Authorization']!;
     Results products;
     DataBase db = DataBase();
     try {
       verify(token);
-      products = await db.getProduct(message["message"]);
+      products = await db.getProduct(product["name"]!);
     } on MySqlException catch (e) {
       print(e);
       return Response(
