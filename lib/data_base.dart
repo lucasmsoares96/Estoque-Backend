@@ -75,7 +75,8 @@ class DataBase {
 
   Future<Results> getProduct(String productMap) async {
     return await conn.query(
-        'SELECT name, productType FROM product WHERE name = ?;', [productMap]);
+        'SELECT name, productType FROM product WHERE LOCATE(?,NAME);',
+        [productMap]);
   }
 
   Future<Results> deleteProduct(Map<String, dynamic> productMap) async {
