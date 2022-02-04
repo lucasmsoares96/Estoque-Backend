@@ -20,7 +20,6 @@ class User {
     setEntryDate(DateTime.parse(u['entryDate']));
     setUserType(u['userType']);
     setEmail(u['email']);
-    setPassword(u['password']);
     setisAdmin(u['isAdmin']);
   }
 
