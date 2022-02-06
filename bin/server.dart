@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:estoque_backend/data_base.dart';
-import 'package:estoque_backend/routes/routes.dart';
+import 'package:estoque_backend/routes.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
