@@ -7,7 +7,6 @@ import 'package:shelf/shelf.dart';
 import 'package:dotenv/dotenv.dart' show env;
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:estoque_backend/routes/abstract_routes.dart';
-import 'package:shelf_router/src/router.dart';
 
 class Users extends AbstractRoutes {
   Users();
@@ -18,7 +17,7 @@ class Users extends AbstractRoutes {
     String message = await request.readAsString();
     User u = User(jsonDecode(message));
     DataBase db = DataBase();
-    Results userResult = await db.login(u.getEmail()!);
+    Results userResult = await db.login(u.email);
     if (userResult.isEmpty) {
       print(
           'Falha ao carregar o usuário: Não foi encontrado um usuário com esse email');

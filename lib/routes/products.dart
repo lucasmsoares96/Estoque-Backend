@@ -5,7 +5,7 @@ import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:estoque_backend/routes/abstract_routes.dart';
-import 'package:shelf_router/src/router.dart';
+import 'package:shelf_router/shelf_router.dart';
 
 class Products extends AbstractRoutes {
   Products();
