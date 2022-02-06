@@ -5,8 +5,8 @@ class Product {
 
   Product.fromMap(Map<String, dynamic> u) {
     id = u["id"];
-    _name = u["name"];
-    _productType = u["productType"];
+    name = u["name"];
+    productType = u["productType"];
   }
 
   Map<String, dynamic> toMap() {
