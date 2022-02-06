@@ -1,49 +1,41 @@
 class User {
-  int? _id;
+  int? id;
   String? _cpf;
   String? _name;
-  DateTime? _entryDate;
+  DateTime? entryDate;
   String? _userType;
   String? _email;
   String? _password;
-  String? _hash;
-  bool _isAdmin = false;
+  String? hash;
+  bool isAdmin = false;
 
   User(Map<String, dynamic> u) {
-    setEmail(u['email']);
-    setPassword(u['password']);
+    email = u['email'];
+    password = u['password'];
   }
 
   User.fromUser(Map<String, dynamic> u) {
-    setCpf(u['cpf']);
-    setName(u['name']);
-    setEntryDate(DateTime.parse(u['entryDate']));
-    setUserType(u['userType']);
-    setEmail(u['email']);
-    setisAdmin(u['isAdmin']);
+    cpf = u['cpf'];
+    name = u['name'];
+    entryDate = DateTime.parse(u['entryDate']);
+    userType = u['userType'];
+    email = u['email'];
+    isAdmin = u['isAdmin'];
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'cpf': getCpf(),
-      'name': getName(),
-      'entryDate': getEntryDate(),
-      'userType': getUserType(),
-      'email': getEmail(),
-      'hash': getHash(),
-      'isAdmin': getisAdmin(),
+      'cpf': cpf,
+      'name': name,
+      'entryDate': entryDate,
+      'userType': userType,
+      'email': email,
+      'hash': hash,
+      'isAdmin': isAdmin,
     };
   }
 
-  setId(int id) {
-    _id = id;
-  }
-
-  int? getId() {
-    return _id;
-  }
-
-  setCpf(String cpf) {
+  set cpf(String cpf) {
     if (!cpf.toString().contains(RegExp('[0-9]{11}'))) {
       print('Falha ao carregar o usuário: Cpf inválido');
       throw Exception('Falha ao carregar o usuário: Cpf inválido');
@@ -51,11 +43,9 @@ class User {
     _cpf = cpf;
   }
 
-  String? getCpf() {
-    return _cpf;
-  }
+  String get cpf => _cpf!;
 
-  setName(String name) {
+  set name(String name) {
     if (!name.toString().contains(RegExp('^[a-zA-Z ]{1,50}\$'))) {
       print('Falha ao carregar o usuário: Nome inválido');
       throw Exception('Falha ao carregar o usuário: Nome inválido');
@@ -63,19 +53,9 @@ class User {
     _name = name;
   }
 
-  String? getName() {
-    return _name;
-  }
+  String get name => _name!;
 
-  setEntryDate(DateTime entryDate) {
-    _entryDate = entryDate;
-  }
-
-  DateTime? getEntryDate() {
-    return _entryDate;
-  }
-
-  setUserType(String userType) {
+  set userType(String userType) {
     if (userType.toString().contains(RegExp('^[a-zA-Z ]\$'))) {
       print('Falha ao carregar o usuário: Tipo inválido');
       throw Exception('Falha ao carregar o usuário: Tipo de usuário inválido');
@@ -83,48 +63,26 @@ class User {
     _userType = userType;
   }
 
-  String? getUserType() {
-    return _userType;
-  }
+  String get userType => _userType!;
 
-  setEmail(String email) {
+  set email(String email) {
     if (!email
         .toString()
-        .contains(RegExp('^[a-zA-Z0-9.]+@[a-z0-9]+.[a-z]+\.([a-z]+)?\$'))) {
+        .contains(RegExp('^[a-zA-Z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?\$'))) {
       print('Falha ao carregar o usuário: Email inválido');
       throw Exception('Falha ao carregar o usuário: Email inválido');
     }
     _email = email;
   }
 
-  String? getEmail() {
-    return _email;
-  }
+  String get email => _email!;
 
-  setPassword(String password) {
+  set password(String password) {
     if (!password.contains(RegExp('.{8,60}'))) {
       print('Falha ao carregar o usuário: Senha inválida');
       throw Exception('Falha ao carregar o usuário: Senha inválida');
     }
   }
 
-  String? getPassword() {
-    return _password;
-  }
-
-  setisAdmin(bool isAdmin) {
-    _isAdmin = isAdmin;
-  }
-
-  bool getisAdmin() {
-    return _isAdmin;
-  }
-
-  setHash(String hash) {
-    _hash = hash;
-  }
-
-  String? getHash() {
-    return _hash;
-  }
+  String get password => _password!;
 }
