@@ -14,11 +14,12 @@ class DataBase {
   // fim
 
   var settings = ConnectionSettings(
-      host: 'localhost',
-      port: int.parse(env['port'] ?? "3306"),
-      user: env['user'],
-      password: env['password'],
-      db: 'estoque');
+    host: 'localhost',
+    port: int.parse(env['port'] ?? "3306"),
+    user: env['user'],
+    password: env['password'],
+    db: 'estoque',
+  );
 
   late MySqlConnection conn;
 
@@ -29,8 +30,11 @@ class DataBase {
 
   Future<Results> login(String email) async {
     return await conn.query(
-        'SELECT email, name, password, isAdmin FROM user WHERE email = ?',
-        [email]);
+      'SELECT email, name, password, isAdmin FROM user WHERE email = ?',
+      [
+        email,
+      ],
+    );
   }
 
   Future<Results> registerUser(Map<String, dynamic> userMap) async {
@@ -114,14 +118,20 @@ class DataBase {
   Future<Results> getProduct(String productMap) async {
     return await conn.query(
       'SELECT name, productType FROM product WHERE LOCATE(?,NAME);',
-      [productMap],
+      [
+        productMap,
+      ],
     );
   }
 
   Future<Results> deleteProduct(Map<String, dynamic> productMap) async {
     print(productMap);
     print("TESTE");
-    return await conn
-        .query('DELETE FROM product WHERE id = ?;', [productMap["id"]]);
+    return await conn.query(
+      'DELETE FROM product WHERE id = ?;',
+      [
+        productMap["id"],
+      ],
+    );
   }
 }
