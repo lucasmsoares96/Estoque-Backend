@@ -117,7 +117,7 @@ class DataBase {
 
   Future<Results> getProduct(String productMap) async {
     return await conn.query(
-      'SELECT name, productType FROM product WHERE LOCATE(?,NAME);',
+      'SELECT id, name, productType FROM product WHERE LOCATE(?,NAME);',
       [
         productMap,
       ],
