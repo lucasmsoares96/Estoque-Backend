@@ -99,7 +99,7 @@ class Users extends AbstractRoutes {
         );
       }
       //Confere se a senha nova é válida
-      if (!userMap['user']['newPassword'].contains(RegExp('.{8,60}'))) {
+      if (!userMap['user']['newPassword'].contains(RegExp(r'.{8,60}'))) {
         print('Falha ao carregar o usuário: Senha inválida');
         throw Exception('Falha ao carregar o usuário: Senha inválida');
       }

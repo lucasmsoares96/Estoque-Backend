@@ -36,7 +36,7 @@ class User {
   }
 
   set cpf(String cpf) {
-    if (!cpf.toString().contains(RegExp('[0-9]{11}'))) {
+    if (!cpf.toString().contains(RegExp(r'[0-9]{11}'))) {
       print('Falha ao carregar o usuário: Cpf inválido');
       throw Exception('Falha ao carregar o usuário: Cpf inválido');
     }
@@ -46,7 +46,7 @@ class User {
   String get cpf => _cpf!;
 
   set name(String name) {
-    if (!name.toString().contains(RegExp('^[a-zA-Z ]{1,50}\$'))) {
+    if (!name.toString().contains(RegExp(r'^[a-zA-Z ]{1,50}\$'))) {
       print('Falha ao carregar o usuário: Nome inválido');
       throw Exception('Falha ao carregar o usuário: Nome inválido');
     }
@@ -56,7 +56,7 @@ class User {
   String get name => _name!;
 
   set userType(String userType) {
-    if (userType.toString().contains(RegExp('^[a-zA-Z ]\$'))) {
+    if (userType.toString().contains(RegExp(r'^[a-zA-Z ]\$'))) {
       print('Falha ao carregar o usuário: Tipo inválido');
       throw Exception('Falha ao carregar o usuário: Tipo de usuário inválido');
     }
@@ -66,9 +66,7 @@ class User {
   String get userType => _userType!;
 
   set email(String email) {
-    if (!email
-        .toString()
-        .contains(RegExp('^[a-zA-Z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?\$'))) {
+    if (!email.toString().contains(RegExp(r'^\S+@\S+\.\S+$'))) {
       print('Falha ao carregar o usuário: Email inválido');
       throw Exception('Falha ao carregar o usuário: Email inválido');
     }
@@ -78,7 +76,7 @@ class User {
   String get email => _email!;
 
   set password(String password) {
-    if (!password.contains(RegExp('.{8,60}'))) {
+    if (!password.contains(RegExp(r'.{8,60}'))) {
       print('Falha ao carregar o usuário: Senha inválida');
       throw Exception('Falha ao carregar o usuário: Senha inválida');
     }
