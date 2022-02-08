@@ -8,11 +8,11 @@ class Routes {
 
   final _router = Router()
     ..post('/login', Users().login)
-    ..put('/users', Users().updateUser)
     ..put('/updatePassword', Users().updatePassword)
     ..get('/getUser', Users().getUser)
     ..post('/users', Administrator().registerUser)
     ..get('/users', Administrator().getUsers)
+    ..put('/users', Users().updateUser)
     ..post('/products', Products().includeProduct)
     ..get('/products', Products().getProducts)
     ..get('/products/<name>', Products().getProduct)

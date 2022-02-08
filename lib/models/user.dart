@@ -46,7 +46,7 @@ class User {
   String get cpf => _cpf!;
 
   set name(String name) {
-    if (!name.toString().contains(RegExp(r'^[a-zA-Z ]{1,50}\$'))) {
+    if (!name.toString().contains(RegExp(r'^[a-zA-Z ]'))) {
       print('Falha ao carregar o usuário: Nome inválido');
       throw Exception('Falha ao carregar o usuário: Nome inválido');
     }
