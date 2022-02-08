@@ -54,11 +54,12 @@ class Users extends AbstractRoutes {
 
   Future<Response> updateUser(Request request) async {
     String message = await request.readAsString();
+    String token = request.headers['Authorization']!;
     Map<String, dynamic> userMap = jsonDecode(message);
     User u = User.fromUser(userMap["user"]);
     try {
       await DataBase().updateUser(
-        u.toMap()..['oldEmail'] = verify(userMap['jwt'])['email'],
+        u.toMap()..['oldEmail'] = verify(token)['email'],
       );
     } on MySqlException catch (e) {
       print(e);
