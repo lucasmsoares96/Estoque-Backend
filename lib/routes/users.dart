@@ -56,7 +56,7 @@ class Users extends AbstractRoutes {
     String message = await request.readAsString();
     String token = request.headers['Authorization']!;
     Map<String, dynamic> userMap = jsonDecode(message);
-    User u = User.fromUser(userMap["user"]);
+    User u = User.fromMap(userMap["user"]);
     try {
       await DataBase().updateUser(
         u.toMap()..['oldEmail'] = verify(token)['email'],

@@ -16,7 +16,7 @@ class Administrator extends AbstractRoutes {
     String token = request.headers['Authorization']!;
     Map<String, dynamic> userMap = jsonDecode(message);
     print(userMap);
-    User u = User.fromUser(userMap["user"]);
+    User u = User.fromMap(userMap["user"]);
     u.hash = (dbcrypt.hashpw(
       userMap["user"]["password"]!,
       dbcrypt.gensalt(),

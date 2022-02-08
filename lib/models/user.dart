@@ -14,7 +14,7 @@ class User {
     password = u['password'];
   }
 
-  User.fromUser(Map<String, dynamic> u) {
+  User.fromMap(Map<String, dynamic> u) {
     cpf = u['cpf'];
     name = u['name'];
     entryDate = DateTime.parse(u['entryDate']);
