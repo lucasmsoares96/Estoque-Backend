@@ -78,10 +78,11 @@ class Users extends AbstractRoutes {
 
   Future<Response> updatePassword(Request request) async {
     String message = await request.readAsString();
+    String token = request.headers['Authorization']!;
     Map<String, dynamic> userMap = jsonDecode(message);
     try {
       //Pega usuário pelo email no token
-      String email = verify(userMap['jwt'])['email'];
+      String email = verify(token)['email'];
       Results userResult = await DataBase().login(
         email,
       );
